@@ -25,3 +25,5 @@ Follow these steps to upgrade your EKS cluster using this Terraform module:
    ```bash
    git clone https://github.com/yourusername/eks-upgrade-terraform.git
    cd eks-upgrade-terraform
+
+## Backup current EKS cluster 
