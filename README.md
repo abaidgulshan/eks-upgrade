@@ -3,7 +3,7 @@
 ![Terraform](https://img.shields.io/badge/Terraform-%23007ACC?style=for-the-badge&logo=terraform&logoColor=white)
 ![Amazon EKS](https://img.shields.io/badge/Amazon%20EKS-%23232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
-This repository contains Terraform code and documentation for upgrading an Amazon Elastic Kubernetes Service (EKS) cluster using a Terraform module.
+This repository contains how to change Terraform code and documentation for upgrading an Amazon Elastic Kubernetes Service (EKS) cluster using a Terraform module.
 
 ## Overview
 
@@ -23,7 +23,32 @@ Follow these steps to upgrade your EKS cluster using this Terraform module:
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/eks-upgrade-terraform.git
-   cd eks-upgrade-terraform
+   git clone https://github.com/yourusername/eks-terraform.git
+   cd eks-terraform
+2. Check the location where we have
+   ```bash
+   module "eks" {
+     source  = "terraform-aws-modules/eks/aws"
+     version = "~> 18.20.1"
 
-## Backup current EKS cluster 
+     cluster_version                 = "1.22"
+   ```
+   to 
+   ```
+   module "eks" {
+     source  = "terraform-aws-modules/eks/aws"
+     version = "~> 18.20.1"
+
+     cluster_version                 = "1.23"
+   ```
+`terraform apply` and this will upgrade eks cluster and if there is any node group having `1.22` version. This will take about 15 to 20 min. 
+
+## Manual Upgrade for Karpenter worker Nodes
+* Check Nodes name with command  and their version
+  ```
+   kubectl get nodes
+  ```
+* Drain Node one by one and wait for new node with version 1.23 coming up
+  ```
+  kubectl drain ip-10-X-X-X.ec2.internal --ignore-daemonsets --delete-local-data
+  ```
