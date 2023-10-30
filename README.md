@@ -41,10 +41,10 @@ Follow these steps to upgrade your EKS cluster using this Terraform module:
 
      cluster_version                 = "1.23"
    ```
-`terraform apply` and this will upgrade eks cluster and if there is any node group having `1.22` version. This will take about 15 to 20 min. 
+`terraform apply` and this will upgrade `eks cluster` and if there is any `node group` having `1.22` version. This will take about 15 to 20 min. 
 
-## Manual Upgrade for Karpenter worker Nodes
-* Check Nodes name with command  and their version
+## Manual Upgrade for Karpenter Worker Nodes
+* Check Nodes name with the command  and their version
   ```
    kubectl get nodes
   ```
@@ -52,3 +52,4 @@ Follow these steps to upgrade your EKS cluster using this Terraform module:
   ```
   kubectl drain ip-10-X-X-X.ec2.internal --ignore-daemonsets --delete-local-data
   ```
+* Durring Drain Node some PODs might not evicted, make sure delete PODs with `--force` option and try to drain again
